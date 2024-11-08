@@ -1,7 +1,7 @@
 all: main
 
-main: src/main.c src/lib.c
-	clang src/main.c src/lib.c -o bin/main
+main: main.c
+	clang main.c -o main
 
 clean:
-	rm -r bin
+	rm -f main

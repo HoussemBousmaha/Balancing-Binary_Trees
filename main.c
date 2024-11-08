@@ -1,22 +1,21 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "lib.h"
+#include <time.h>
 
 #define INF 10000
 
-struct Node {
+typedef struct Node {
     struct Node *left, *right;
     int data;
     int color;
-};
+} Node;
 
 Node *bst_node_create(int data, int color) {
-    Node *n  = (Node *)malloc(sizeof(Node));
-    n->left  = NULL;
+    Node *n = (Node *)malloc(sizeof(Node));
+    n->left = NULL;
     n->right = NULL;
-    n->data  = data;
+    n->data = data;
     n->color = color;
 
     return n;
@@ -33,7 +32,7 @@ Node *bst_add(Node *root, Node *node) {
     } else {
         Node *curr = root;
         Node *prev = NULL;
-        bool run   = true;
+        bool run = true;
 
         while (curr != NULL) {
             if (curr->data > node->data) {
@@ -58,11 +57,10 @@ Node *bst_add(Node *root, Node *node) {
 }
 
 Node *bst_create(int nodes) {
-
     Node *root = bst_node_create(INF, 1);
 
     for (int i = 0; i < nodes; i++) {
-        int data   = rand() % 5000;
+        int data = rand() % 5000;
         bool color = rand() % 2;
         Node *node = bst_node_create(data, color);
         if (node->color == true) {
@@ -100,9 +98,9 @@ Node *right_rotation(Node *node, Node *parent) {
 
     Node *left_child = node->left;
     if (left_child != NULL) {
-        Node *tmp         = left_child->right;
+        Node *tmp = left_child->right;
         left_child->right = node;
-        node->left        = tmp;
+        node->left = tmp;
 
         if (parent == NULL) {
             return left_child;
@@ -120,9 +118,9 @@ Node *left_rotation(Node *node, Node *parent) {
     Node *right_child = node->right;
 
     if (right_child != NULL) {
-        Node *tmp         = right_child->left;
+        Node *tmp = right_child->left;
         right_child->left = node;
-        node->right       = tmp;
+        node->right = tmp;
 
         if (parent == NULL) {
             return right_child;
@@ -142,24 +140,24 @@ void bst_transform_1(Node *root) {
     int out = 0;
 
     parent = root;
-    curr   = root->left;
+    curr = root->left;
     while (curr != NULL) {
         if (curr->right != NULL) {
             curr = left_rotation(curr, parent);
         } else {
             parent = curr;
-            curr   = curr->left;
+            curr = curr->left;
         }
     }
 
     parent = root;
-    curr   = root->right;
+    curr = root->right;
     while (curr != NULL) {
         if (curr->left != NULL) {
             curr = right_rotation(curr, parent);
         } else {
             parent = curr;
-            curr   = curr->right;
+            curr = curr->right;
         }
     }
 }
@@ -168,8 +166,8 @@ Node *special_right_rotation(Node *node, Node *parent) {
     Node *left_child = node->left;
     if (left_child != NULL) {
         left_child->right = node;
-        node->left        = NULL;
-        parent->left      = left_child;
+        node->left = NULL;
+        parent->left = left_child;
 
         return left_child;
     } else {
@@ -181,8 +179,8 @@ Node *special_left_rotation(Node *node, Node *parent) {
     Node *right_child = node->right;
     if (right_child != NULL) {
         right_child->left = node;
-        node->right       = NULL;
-        parent->right     = right_child;
+        node->right = NULL;
+        parent->right = right_child;
 
         return right_child;
     } else {
@@ -192,9 +190,9 @@ Node *special_left_rotation(Node *node, Node *parent) {
 
 void bst_transform_2(Node *root) {
 
-    Node *curr_left    = root->left;
-    Node *curr_right   = root->right;
-    Node *parent_left  = root;
+    Node *curr_left = root->left;
+    Node *curr_right = root->right;
+    Node *parent_left = root;
     Node *parent_right = root;
 
     int k = 2;
@@ -210,12 +208,12 @@ void bst_transform_2(Node *root) {
         }
         if (curr_left != NULL) {
             parent_left = curr_left;
-            curr_left   = curr_left->left;
+            curr_left = curr_left->left;
         }
 
         if (curr_right != NULL) {
             parent_right = curr_right;
-            curr_right   = curr_right->right;
+            curr_right = curr_right->right;
         }
         n++;
     }
@@ -223,9 +221,9 @@ void bst_transform_2(Node *root) {
 
 void bst_transform_3(Node *root) {
 
-    Node *curr_left    = root->left;
-    Node *curr_right   = root->right;
-    Node *parent_left  = root;
+    Node *curr_left = root->left;
+    Node *curr_right = root->right;
+    Node *parent_left = root;
     Node *parent_right = root;
 
     while (curr_left != NULL || curr_right != NULL) {
@@ -238,21 +236,21 @@ void bst_transform_3(Node *root) {
         }
         if (curr_left != NULL) {
             parent_left = curr_left;
-            curr_left   = curr_left->left;
+            curr_left = curr_left->left;
         }
 
         if (curr_right != NULL) {
             parent_right = curr_right;
-            curr_right   = curr_right->right;
+            curr_right = curr_right->right;
         }
     }
 }
 
 void bst_transform_4(Node *root) {
 
-    Node *curr_left    = root->left;
-    Node *curr_right   = root->right;
-    Node *parent_left  = root;
+    Node *curr_left = root->left;
+    Node *curr_right = root->right;
+    Node *parent_left = root;
     Node *parent_right = root;
 
     while (curr_left != NULL || curr_right != NULL) {
@@ -266,79 +264,96 @@ void bst_transform_4(Node *root) {
         }
         if (curr_left != NULL) {
             parent_left = curr_left;
-            curr_left   = curr_left->left;
+            curr_left = curr_left->left;
         }
 
         if (curr_right != NULL) {
             parent_right = curr_right;
-            curr_right   = curr_right->right;
+            curr_right = curr_right->right;
         }
     }
 }
 
-void bst_dump_recursive(Node *current_node, FILE *dot_file, int *null_counter) {
+void bst_dump_recursive(Node *current_node, int *null_counter) {
     if (current_node != NULL) {
         const char *node_color = current_node->color ? "black" : "white";
         const char *font_color = current_node->color ? "white" : "black";
 
-        fprintf(dot_file, "\t\"%d %s\" [style=filled, fillcolor=\"%s\", fontcolor=\"%s\", fontsize=12, shape=doublecircle, fontname=\"Comic Sans MS\"];\n", current_node->data, node_color, node_color, font_color);
+        printf("\t\"%d %s\" [style=filled, fillcolor=\"%s\", fontcolor=\"%s\", fontsize=12, shape=doublecircle, fontname=\"Comic Sans MS\"];\n", current_node->data, node_color, node_color, font_color);
 
         // Left child
         if (current_node->left != NULL) {
-            const char *left_color      = current_node->left->color ? "black" : "white";
+            const char *left_color = current_node->left->color ? "black" : "white";
             const char *left_font_color = current_node->left->color ? "white" : "black";
 
-            fprintf(dot_file, "\t\"%d %s\" [style=filled, fillcolor=\"%s\", fontcolor=\"%s\", fontsize=12, shape=doublecircle, fontname=\"Comic Sans MS\"];\n", current_node->left->data, left_color, left_color, left_font_color);
-            fprintf(dot_file, "\t\"%d %s\" -> \"%d %s\";\n", current_node->data, node_color, current_node->left->data, left_color);
+            printf("\t\"%d %s\" [style=filled, fillcolor=\"%s\", fontcolor=\"%s\", fontsize=12, shape=doublecircle, fontname=\"Comic Sans MS\"];\n", current_node->left->data, left_color, left_color, left_font_color);
+            printf("\t\"%d %s\" -> \"%d %s\";\n", current_node->data, node_color, current_node->left->data, left_color);
         } else {
-            fprintf(dot_file, "\t\"NIL%d\" [style=invis];\n", *null_counter);
-            fprintf(dot_file, "\t\"%d %s\" -> \"NIL%d\" [style=invis];\n", current_node->data, node_color, (*null_counter)++);
+            printf("\t\"NIL%d\" [style=invis];\n", *null_counter);
+            printf("\t\"%d %s\" -> \"NIL%d\" [style=invis];\n", current_node->data, node_color, (*null_counter)++);
         }
 
         // Virtual middle NIL child
-        fprintf(dot_file, "\t\"NIL%d\" [style=invis];\n", *null_counter);
-        fprintf(dot_file, "\t\"%d %s\" -> \"NIL%d\" [style=invis];\n", current_node->data, node_color, (*null_counter)++);
+        printf("\t\"NIL%d\" [style=invis];\n", *null_counter);
+        printf("\t\"%d %s\" -> \"NIL%d\" [style=invis];\n", current_node->data, node_color, (*null_counter)++);
 
         // Right child
         if (current_node->right != NULL) {
-            const char *right_color      = current_node->right->color ? "black" : "white";
+            const char *right_color = current_node->right->color ? "black" : "white";
             const char *right_font_color = current_node->right->color ? "white" : "black";
 
-            fprintf(dot_file, "\t\"%d %s\" [style=filled, fillcolor=\"%s\", fontcolor=\"%s\", fontsize=12, shape=doublecircle, fontname=\"Comic Sans MS\"];\n", current_node->right->data, right_color, right_color, right_font_color);
-            fprintf(dot_file, "\t\"%d %s\" -> \"%d %s\";\n", current_node->data, node_color, current_node->right->data, right_color);
+            printf("\t\"%d %s\" [style=filled, fillcolor=\"%s\", fontcolor=\"%s\", fontsize=12, shape=doublecircle, fontname=\"Comic Sans MS\"];\n", current_node->right->data, right_color, right_color, right_font_color);
+            printf("\t\"%d %s\" -> \"%d %s\";\n", current_node->data, node_color, current_node->right->data, right_color);
         } else {
-            fprintf(dot_file, "\t\"NIL%d\" [style=invis];\n", *null_counter);
-            fprintf(dot_file, "\t\"%d %s\" -> \"NIL%d\" [style=invis];\n", current_node->data, node_color, (*null_counter)++);
+            printf("\t\"NIL%d\" [style=invis];\n", *null_counter);
+            printf("\t\"%d %s\" -> \"NIL%d\" [style=invis];\n", current_node->data, node_color, (*null_counter)++);
         }
 
         // Recursively dump left and right subtrees
-        bst_dump_recursive(current_node->left, dot_file, null_counter);
-        bst_dump_recursive(current_node->right, dot_file, null_counter);
+        bst_dump_recursive(current_node->left, null_counter);
+        bst_dump_recursive(current_node->right, null_counter);
     }
 }
 
-void bst_dump(Node *root, const char *file_path) {
-    FILE *dot_file;
+void bst_dump(Node *root) {
     if (root == NULL) {
-        printf("> ERROR: Empty tree!");
+        printf("ERROR: Empty tree!");
         return;
     }
 
-    dot_file = fopen(file_path, "w");
-    if (dot_file == NULL) {
-        printf("Error opening file!\n");
-        return;
-    }
-
-    fprintf(dot_file, "digraph binary_search_tree {\n");
-    fprintf(dot_file, "\tordering = out;\n");
-    fprintf(dot_file, "\tsplines = false;\n");
+    printf("digraph bst {\n");
+    printf("\tordering = out;\n");
+    printf("\tsplines = false;\n");
 
     int null_counter = 0;
-    bst_dump_recursive(root, dot_file, &null_counter);
+    bst_dump_recursive(root, &null_counter);
 
-    fprintf(dot_file, "}\n");
-    fclose(dot_file);
+    printf("}\n");
+}
 
-    printf("BST dumped to '%s' file.\n", file_path);
+int main(int argc, const char *argv[]) {
+    int nodes = 100;
+
+    if (argc == 2) nodes = atoi(argv[1]);
+
+    srand(time(NULL));
+
+    Node *root = bst_create(nodes);
+    bst_dump(root);
+
+    bst_transform_1(root);
+    bst_dump(root);
+
+    // bst_transform_2(root);
+    // bst_dump(root);
+
+    // bst_transform_3(root);
+    // bst_dump(root);
+
+    // bst_transform_4(root);
+    // bst_dump(root);
+
+    bst_free(&root);
+
+    return 0;
 }
