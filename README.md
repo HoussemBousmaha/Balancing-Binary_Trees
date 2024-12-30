@@ -1,3 +1,5 @@
+a good application of these transformations is to be found when trying to implement operator precedence in programming language parsers
+
 ### Original
 ![original](https://github.com/user-attachments/assets/061f8bc6-ec4d-4cc3-b477-50307dc4c783)
 
